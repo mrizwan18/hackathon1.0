@@ -30,7 +30,10 @@ app.use('/users', usersRouter);
 app.use(function (req, res, next) {
   next(createError(404));
 });
-
+mongoose.connect(, { useNewUrlParser: true }).then(
+  () => { console.log('Database is connected') },
+  err => { console.log('Can not connect to the database' + err) }
+);
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
