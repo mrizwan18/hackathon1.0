@@ -14,7 +14,11 @@ const studentSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
-    }
+    },
+    upvotes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+    }]
 })
 
 module.exports = mongoose.model('Student', studentSchema);

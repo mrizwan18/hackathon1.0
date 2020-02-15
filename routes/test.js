@@ -143,7 +143,8 @@ router.post('/student', (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         "university": u_id,
         "subscriptions": [],
-        "name": req.body.name
+        "name": req.body.name,
+        "upvotes": []
     })
     student.save()
     .then(result => {
@@ -167,7 +168,8 @@ router.get('/uni/:u_id', (req, res, next) => {
             "uni": result
         })
     })
-})
+});
+
 
 
 
