@@ -52,6 +52,6 @@ exports.all_comments = (req, res) => {
   Comment.find({thread: req.params.thread_id}, function(err, comments){
     if(err) throw err;
     res.send(comments);
-  });
+  }).sort({upvotes: -1});
 };
 

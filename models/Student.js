@@ -7,8 +7,11 @@ const studentSchema = new mongoose.Schema({
         ref: 'University',
         required: true
     },
-    subscriptions: [{ type : ObjectId, ref: 'User' }],
-    naame: {
+    subscriptions: [{ 
+        type : mongoose.Schema.Types.ObjectId, 
+        ref: 'Course' 
+    }],
+    name: {
         type: String,
         required: true
     }
