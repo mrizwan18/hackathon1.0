@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include partials/header %>
+
+<body>
+    <div class="container">
+        <% include partials/navbar %>
+        <h1><%=course.name%></h1>
+        <h2><%=course.course_code%></h2>
+        <div class="threads">
+            <% for (var i = 0; i < course.threads.length; i++) { %>
+            <div class="courseCard">
+                <h1>
+                    <%= course.threads[i].title %>
+                </h1>
+            </div>
+            <% } %>
+        </div>
+        <% include partials/footer %>
+    </div>
+</body>
+
+</html>

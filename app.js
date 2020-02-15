@@ -3,12 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const mongoose = require('mongoose')
 const passport = require('passport');
 const { Strategy: FacebookStrategy } = require('passport-facebook');
-
+const User = require('./models/student.js');
 var indexRouter = require('./routes/common');
 var usersRouter = require('./routes/users');
+var config = require('./database/DB')
 
 var app = express();
 
@@ -51,16 +52,20 @@ passport.deserializeUser((id, done) => {
     done(err, user);
   });
 });
+mongoose.connect(config.DB, { useNewUrlParser: true }).then(
+  () => { console.log('Database is connected') },
+  err => { console.log('Can not connect to the database' + err) }
+);
 
 passport.use(new FacebookStrategy({
   clientID: "198133394722504",
   clientSecret: "7824c73fdde5654e71ada10658f314d3",
   callbackURL: 'http://localhost:3000/auth/facebook/callback',
-  profileFields: ['name', 'email', 'link', 'locale', 'timezone', 'gender'],
+  profileFields: ['name'],  /* 'email', 'link', 'locale', 'timezone', 'gender'*/
   passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, done) => {
   if (req.user) {
-    User.findOne({ facebook: profile.id }, (err, existingUser) => {
+    User.findOne({ name: profile._json.name }, (err, existingUser) => {
       if (err) { return done(err); }
       if (existingUser) {
         req.flash('errors', { msg: 'There is already a Facebook account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
@@ -68,11 +73,11 @@ passport.use(new FacebookStrategy({
       } else {
         User.findById(req.user.id, (err, user) => {
           if (err) { return done(err); }
-          user.facebook = profile.id;
-          user.tokens.push({ kind: 'facebook', accessToken });
+          // user.facebook = profile.id;
+          // user.tokens.push({ kind: 'facebook', accessToken });
           user.profile.name = user.profile.name || `${profile.name.givenName} ${profile.name.familyName}`;
-          user.profile.gender = user.profile.gender || profile._json.gender;
-          user.profile.picture = user.profile.picture || `https://graph.facebook.com/${profile.id}/picture?type=large`;
+          // user.profile.gender = user.profile.gender || profile._json.gender;
+          // user.profile.picture = user.profile.picture || `https://graph.facebook.com/${profile.id}/picture?type=large`;
           user.save((err) => {
             req.flash('info', { msg: 'Facebook account has been linked.' });
             done(err, user);
@@ -82,7 +87,7 @@ passport.use(new FacebookStrategy({
     });
   } else {
     console.log(profile)
-    User.findOne({ facebook: profile.id }, (err, existingUser) => {
+    User.findOne({ name: profile._json.name }, (err, existingUser) => {
       if (err) { return done(err); }
       if (existingUser) {
         return done(null, existingUser);
@@ -90,17 +95,19 @@ passport.use(new FacebookStrategy({
       User.findOne({ email: profile._json.email }, (err, existingEmailUser) => {
         if (err) { return done(err); }
         if (existingEmailUser) {
-          req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with Facebook manually from Account Settings.' });
+          // req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with Facebook manually from Account Settings.' });
+          console.log("In Flash")
           done(err);
         } else {
           const user = new User();
-          user.email = profile._json.email;
-          user.facebook = profile.id;
-          user.tokens.push({ kind: 'facebook', accessToken });
-          user.profile.name = `${profile.name.givenName} ${profile.name.familyName}`;
-          user.profile.gender = profile._json.gender;
-          user.profile.picture = `https://graph.facebook.com/${profile.id}/picture?type=large`;
-          user.profile.location = (profile._json.location) ? profile._json.location.name : '';
+          user.name = profile._json.name;
+          user.university = "5e47da68d21f0a0d380bce9e";
+          // user.facebook = profile.id;
+          // user.tokens.push({ kind: 'facebook', accessToken });
+          // user.profile.name = `${profile.name.givenName} ${profile.name.familyName}`;
+          // user.profile.gender = profile._json.gender;
+          // user.profile.picture = `https://graph.facebook.com/${profile.id}/picture?type=large`;
+          // user.profile.location = (profile._json.location) ? profile._json.location.name : '';
           user.save((err) => {
             done(err, user);
           });
