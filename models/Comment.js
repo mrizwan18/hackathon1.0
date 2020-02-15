@@ -7,9 +7,9 @@ const commentSchema = new mongoose.Schema({
         ref: 'Thread',
         required: true
     },
-    user: {
+    student: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Student',
         required: true
     },
     body: {

@@ -4,8 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var indexRouter = require('./api-routes/index');
+var studentRouter = require('./api-routes/student');
+var teacherRouter = require('./api-routes/teacher');
+
+var config = require('./database/DB');
+var mongoose = require('mongoose');
 
 var app = express();
 
@@ -19,8 +23,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api', indexRouter);
+app.use('/student/api', studentRouter);
+app.use('/teacher/api', teacherRouter);
+
+mongoose.connect(config.DB, { useNewUrlParser: true }).then(
+  () => { console.log('Database is connected') },
+  err => { console.log('Can not connect to the database' + err) }
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
