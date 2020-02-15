@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const User = require('./models/user')
 
 const passport = require('passport');
 const { Strategy: FacebookStrategy } = require('passport-facebook');
@@ -94,13 +95,14 @@ passport.use(new FacebookStrategy({
           done(err);
         } else {
           const user = new User();
-          user.email = profile._json.email;
-          user.facebook = profile.id;
-          user.tokens.push({ kind: 'facebook', accessToken });
-          user.profile.name = `${profile.name.givenName} ${profile.name.familyName}`;
-          user.profile.gender = profile._json.gender;
-          user.profile.picture = `https://graph.facebook.com/${profile.id}/picture?type=large`;
-          user.profile.location = (profile._json.location) ? profile._json.location.name : '';
+          user.university = "5e47da68d21f0a0d380bce9e";
+          user.name = profile.name;
+          // user.facebook = profile.id;
+          // user.tokens.push({ kind: 'facebook', accessToken });
+          // user.profile.name = `${profile.name.givenName} ${profile.name.familyName}`;
+          // user.profile.gender = profile._json.gender;
+          // user.profile.picture = `https://graph.facebook.com/${profile.id}/picture?type=large`;
+          // user.profile.location = (profile._json.location) ? profile._json.location.name : '';
           user.save((err) => {
             done(err, user);
           });
