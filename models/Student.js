@@ -9,7 +9,7 @@ const studentSchema = new mongoose.Schema({
     },
     subscriptions: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'Course'
     }],
     name: {
         type: String,

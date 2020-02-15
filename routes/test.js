@@ -170,7 +170,71 @@ router.get('/uni/:u_id', (req, res, next) => {
     })
 });
 
+router.post('/subscribe', (req, res, next) => {
+    const s_id = req.body.s_id;
+    const c_id = req.body.c_id;
+    Student.update(
+        { _id: s_id },
+        { $push: { "subscriptions": c_id } },
+        function(err, model) {
+            if(err){
+                res.status(400).json({
+                    error: err.message
+                });
+            } else {
+                res.status(201).json({
+                    "message": model
+                })
+            }
+            
+        }
+     )
+});
 
+router.post('/upvote', (req, res, next) => {
+    const s_id = req.body.s_id;
+    const c_id = req.body.c_id;
+    Student.find({_id: s_id})
+    .then(student => {
+        if(!student[0].upvotes.includes(c_id)){
+            Student.update(
+                { _id: s_id },
+                { $push: { "upvotes": c_id } },
+                function(err, model) {
+                    if(err){
+                        res.status(400).json({
+                            error: err.message
+                        });
+                    } else {
+                        Comment.update(
+                            { _id: c_id },
+                            { $inc: { "upvotes": 1 } },
+                            function(err, model) {
+                                if(err){
+                                    res.status(400).json({
+                                        error: err.message
+                                    });
+                                } else {
+                                    res.status(201).json({
+                                        "message": "upvote incremented"
+                                    })
+                                }
+                                
+                            }
+                         )
+                    }
+                    
+                }
+             )
+        } else {
+            res.status(401).json({
+                error: "Already Upvoted"
+            })
+        }
+    })
+    
+     
+});
 
 
 module.exports = router;
