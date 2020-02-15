@@ -1,11 +1,27 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<html lang="en">
+
+<% include partials/header %>
+
+<body>
+  <div class="container">
+    <% include partials/navbar %>
+    <div class="universities">
+      <div class="unicard" style="  background-image: url('static/images/fast.jpg')
+">
+        <h1>FAST NUCES</h1>
+      </div>
+      <div class="unicard" style="  background-image: url('static/images/lums.jpg')
+">
+        <h1>LUMSU</h1>
+      </div>
+      <div class="unicard" style="  background-image: url('static/images/nust.jpg')
+">
+        <h1>NUST</h1>
+      </div>
+    </div>
+    <% include partials/footer %>
+  </div>
+</body>
+
 </html>
