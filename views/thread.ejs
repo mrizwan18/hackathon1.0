@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include partials/header %>
+
+<body>
+    <div class="container">
+        <% include partials/navbar %>
+        <div class="thread">
+            <div class="thread-body">
+                <h1><%=thread.title%></h1>
+                <p class="description"><%=thread.body%></p>
+            </div>
+        </div>
+        <div class="comments">
+            <% for (var i = 0; i < thread.comments.length; i++) { %>
+            <div class="comment">
+                <div class="upvote">
+                    <a href="">
+                        <i class="fas fa-arrow-up"></i>
+                    </a>
+                </div>
+                <div class="student">
+                    <%= thread.comments[i].student %>
+                </div>
+                <div class="tbody">
+                    <%= thread.comments[i].body %>
+                </div>
+                <div class="count">
+                    <span>Upvotes: </span>
+                    <%= thread.comments[i].upvotes %>
+                </div>
+            </div>
+            <% } %>
+        </div>
+        <% include partials/create_comment %>
+        <% include partials/footer %>
+    </div>
+</body>
+
+</html>
