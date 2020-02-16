@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport')
-var courses = [{ 'name': 'ITC', 'course_code': 'CS 302' }, { 'name': 'CP', 'course_code': 'CS 502' }, { 'name': 'Algo', 'course_code': 'CS 202' }]
-var course = { 'name': 'ITC', 'course_code': 'CS 302', 'threads': [{ 'title': 'Functions' }, { 'title': 'Arrays' }, { 'title': 'Pass By Value' }] }
-var thread = { 'title': 'Functions', 'body': 'Functions are used to perform certain actions, and they are important for reusing code: Define the code once, and use it many times.', 'comments': [{ 'student': 'Zulqar', 'body': 'nice sax ass', 'upvotes': '10000' }, { 'student': 'ahmed booty', 'body': 'nice ass', 'upvotes': '8000' }, { 'student': 'ahmed booty', 'body': 'nice ass', 'upvotes': '8000' }, { 'student': 'ahmed booty', 'body': 'nice ass', 'upvotes': '8000' }, { 'student': 'ahmed booty', 'body': 'nice ass', 'upvotes': '8000' }] }
+var Course = require('../models/Course');
 
 
 /* GET home page. */
@@ -21,8 +19,13 @@ router.get('/create_thread', function (req, res, next) {
   res.render('create_thread');
 });
 
-router.get('/courses', function (req, res, next) {
-  res.render('courses', { 'courses': courses });
+router.get('/courses/:id', function (req, res, next) {
+  Course.find({ university: req.params.id }).exec(function (err, courses) {
+    if (err) throw err;
+    res.render('courses', { 'courses': courses });
+
+  });
+
 });
 
 router.get('/thread', function (req, res, next) {

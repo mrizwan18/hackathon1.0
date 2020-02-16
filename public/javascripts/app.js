@@ -70,3 +70,11 @@ function closeAllSelect(elmnt) {
 /*if the user clicks anywhere outside the select box,
 then close all select boxes:*/
 document.addEventListener("click", closeAllSelect);
+
+let unis = document.querySelectorAll('.unicard');
+uni_ids = ['5e47da68d21f0a0d380bce9e', '5e47e32d57aea722c08b7caa', '5e486005947f810ddc40e76c']
+unis.forEach(uni => {
+    uni.addEventListener('click', async () => {
+        window.location.replace('http://localhost:3000/courses/' + uni_ids[uni.id] + '/')
+    })
+});
