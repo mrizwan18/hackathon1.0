@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include partials/header %>
+
+<body>
+    <div class="container">
+        <% include partials/navbar %>
+
+        <h2>Add Thread title and thread body.</h2>
+        <form action="/create_thread" method="POST" class="form-element">
+            <span>Title: </span>
+            <input type="text" name="thread_title" id="thread_title">
+            <span>Body: </span>
+            <textarea name="thread_body" id="thread_body"></textarea>
+        </form>
+        <button class="btn">Add Thread</button>
+
+        <% include partials/footer %>
+    </div>
+</body>
+
+</html>

@@ -8,6 +8,9 @@
         <% include partials/navbar %>
         <h1><%=course.name%></h1>
         <h2><%=course.course_code%></h2>
+        <h2>List of Threads</h2>
+        <a href="/create_thread">
+            <button class="btn">Create Thread</button></a>
         <div class="threads">
             <% for (var i = 0; i < course.threads.length; i++) { %>
             <div class="courseCard">

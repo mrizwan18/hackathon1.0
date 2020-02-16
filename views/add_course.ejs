@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include partials/header %>
+
+<body>
+    <div class="container">
+        <% include partials/navbar %>
+
+        <h2>Add Course Name, Course Code and Select University.</h2>
+        <form action="/create_course" method="POST" class="form-element">
+            <span>Name: </span>
+            <input type="text" name="course_name" id="course_name">
+            <span>Code: </span>
+            <input type="text" name="course_code" id="course_code">
+            <div class="custom-select" style="width:200px;">
+                <select>
+                    <option value="0">FAST</option>
+                    <option value="1">LUMS</option>
+                    <option value="2">NUST</option>
+                </select>
+            </div>
+        </form>
+        <button class="btn" type="submit">Add Course</button>
+
+        <% include partials/footer %>
+    </div>
+</body>
+
+</html>
