@@ -7,14 +7,18 @@ const studentSchema = new mongoose.Schema({
         ref: 'University',
         required: true
     },
-    subscriptions: [{ 
-        type : mongoose.Schema.Types.ObjectId, 
-        ref: 'Course' 
+    subscriptions: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course'
     }],
     name: {
         type: String,
         required: true
-    }
+    },
+    upvotes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+    }]
 })
 
 module.exports = mongoose.model('Student', studentSchema);

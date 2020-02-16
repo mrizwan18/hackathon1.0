@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./api-routes/index');
 var studentRouter = require('./api-routes/student');
 var teacherRouter = require('./api-routes/teacher');
+var testRoutes = require('./routes/test');
 
 var config = require('./database/DB');
 var mongoose = require('mongoose');
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', indexRouter);
 app.use('/student/api', studentRouter);
 app.use('/teacher/api', teacherRouter);
+app.use('/test', testRoutes);
 
 mongoose.connect(config.DB, { useNewUrlParser: true }).then(
   () => { console.log('Database is connected') },
